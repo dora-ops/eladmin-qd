@@ -59,19 +59,22 @@ export default {
       })
     },
     doAdd() {
-      add(this.form).then(res => {
-        this.resetForm()
+         this.loading = false
+        this.$http
+        .post("insert_hash", 
+         this.form
+        )
+        .then(res => {
+           this.resetForm()
         this.$notify({
           title: '添加成功',
           type: 'success',
           duration: 2500
         })
-        this.loading = false
-        this.$parent.$parent.init()
-      }).catch(err => {
-        this.loading = false
-        console.log(err.response.data.message)
-      })
+        location.reload()
+        //  this.$parent.init()
+        });
+      
     },
     doEdit() {
       edit(this.form).then(res => {

@@ -18,7 +18,7 @@
       </el-table-column>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <edit v-if="checkPermission(['ADMIN','REDIS_ALL','REDIS_EDIT'])" :data="scope.row" :sup_this="sup_this"/>
+          <!-- <edit v-if="checkPermission(['ADMIN','REDIS_ALL','REDIS_EDIT'])" :data="scope.row" :sup_this="sup_this"/> -->
           <el-popover
             v-if="checkPermission(['ADMIN','REDIS_ALL','REDIS_DELETE'])"
             :ref="scope.$index"
@@ -49,21 +49,29 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 import initData from '@/mixins/initData'
 import { del } from '@/api/redis'
 import { getPermissionTree } from '@/api/permission'
+
 import eHeader from './module/header'
 import edit from './module/edit'
 export default {
   components: { eHeader, edit },
-  mixins: [initData],
+//    mixins: [initData],
   data() {
     return {
-      delLoading: false, sup_this: this, permissions: []
+      delLoading: false, sup_this: this, permissions: [],
+      data:[],query:{}
     }
   },
   created() {
     this.getPermissions()
-    this.$nextTick(() => {
-      this.init()
-    })
+    this.$http
+        .post("action",{sql:'SELECT * FROM eladmin_new.hash UNION SELECT * FROM test.hash'})
+        .then(res => {
+            this.data=res.data
+            this.loading=false
+        })
+    // this.$nextTick(() => {
+    //   this.init()
+    // })
   },
   methods: {
     checkPermission,
@@ -81,25 +89,37 @@ export default {
     },
     subDelete(index, row) {
       this.delLoading = true
-      del(row.key).then(res => {
-        this.delLoading = false
+      this.$http
+        .post("delete_hash",{key:row.key,id:row.id})
+        .then(res => {
+            this.delLoading = false
         this.$refs[index].doClose()
-        this.init()
+        // this.init()
+        location.reload()
         this.$notify({
           title: '删除成功',
           type: 'success',
           duration: 2500
         })
-      }).catch(err => {
-        this.delLoading = false
-        this.$refs[index].doClose()
-        console.log(err.response.data.message)
-      })
+        })
+      
     },
     getPermissions() {
       getPermissionTree().then(res => {
         this.permissions = res
       })
+    },
+    toQuery(){
+        // this.$parent.toQuery()
+        if (this.query.value) {
+              this.$http
+        .post("get_hash",{key:this.query.value})
+        .then(res => {
+            this.data=res.data
+        })
+        }
+        
+        console.log(12)
     }
   }
 }

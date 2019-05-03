@@ -19,6 +19,13 @@ import './permission' // permission control
 Vue.use(mavonEditor)
 Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false
+import axios from 'axios'
+
+const instance = axios.create({
+    baseURL: 'http://localhost:3000/api/base/', // api 的 base_url
+    
+})
+Vue.prototype.$http = instance;
 
 new Vue({
   el: '#app',

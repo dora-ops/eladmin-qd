@@ -15,7 +15,7 @@
       <eForm ref="form" :is-add="true"/>
     </div>
     <!-- 清空缓存 -->
-    <el-button v-if="checkPermission(['ADMIN','REDIS_ALL','REDIS_DELETE'])" :loading="deleteAllLoading" type="warning" size="mini" class="filter-item" icon="el-icon-delete" @click="deleteAll">清空缓存</el-button>
+    <!-- <el-button v-if="checkPermission(['ADMIN','REDIS_ALL','REDIS_DELETE'])" :loading="deleteAllLoading" type="warning" size="mini" class="filter-item" icon="el-icon-delete" @click="deleteAll">清空缓存</el-button> -->
   </div>
 </template>
 
@@ -41,7 +41,9 @@ export default {
     checkPermission,
     toQuery() {
       this.$parent.page = 0
-      this.$parent.init()
+      console.log(this.$parent)
+    //   this.$parent
+      this.$parent.toQuery()
     },
     deleteAll() {
       this.deleteAllLoading = true
