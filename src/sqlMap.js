@@ -162,9 +162,9 @@ const users={
     updatePhoto:'update users set photo="?" where id=?',
 }
 
-const pub_content={
-    getOne: 'select * from pub_content where id=?',
-    getAll:'select * from pub_content',
+const erea_info={
+    getOne: 'select * from erea_info where id=?',
+    getAll:'select * from erea_info',
     find:'select * from pub_content where cus_id=?',
     findByTitle:'select * from pub_content where title like "%?%"',
     delete:'delete  from pub_content where id=?',
@@ -182,11 +182,12 @@ const user_pub={
     findMyLike:'select * from user_pub where cus_id=?'
 }
 
-const user_follow={
-    find: 'SELECT * FROM pub_content WHERE cus_id in( SELECT uf.cus_id FROM users u LEFT JOIN user_follow uf ON uf.cus_follow_id=u.id  WHERE u.id=?)',
-    findMyFollow:'SELECT u.* FROM users u WHERE id IN (	SELECT	uf.cus_id	FROM user_follow uf	WHERE uf.cus_follow_id =?)',
+const topic={
+    inc: 'update topic set count=count+1 where id=?',
+    getAll:'SELECT * FROM topic',
     findFollow:'select * from user_follow where cus_id=? AND cus_follow_id=?',
-    delete:'delete from user_follow where cus_id=? AND cus_follow_id=?'
+    delete:'delete from user_follow where cus_id=? AND cus_follow_id=?',
+    getOne:'select * from topic where id=?'
 }
 
 
@@ -216,7 +217,7 @@ module.exports = {
     courselist,
 
     users,
-    pub_content,
-    user_pub,
-    user_follow
+
+    erea_info,
+    topic
 };

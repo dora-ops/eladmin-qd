@@ -4,11 +4,7 @@
     <breadcrumb class="breadcrumb-container"/>
 
     <div class="right-menu">
-      <template>
-        <el-tooltip content="更新公告" effect="dark" placement="bottom">
-          <Placard class="screenfull right-menu-item"/>
-        </el-tooltip>
-      </template>
+     
       <template v-if="device!=='mobile'">
         <el-tooltip content="全屏" effect="dark" placement="bottom">
           <screenfull class="screenfull right-menu-item"/>

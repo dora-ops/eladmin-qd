@@ -1,5 +1,5 @@
 <template>
-  <a href="" target="_blank" class="github-corner" aria-label="View source on Github">
+  <a href="" target="_blank"  >
     <svg
       width="80"
       height="80"

@@ -15,7 +15,7 @@
         <svg-icon v-if="isCollapse" icon-class="run" />
         <!--正常状态下显示的，可以使用本地的logoImg-->
         <div class="logo-con">
-          <img src="https://aurora-1255840532.cos.ap-chengdu.myqcloud.com/logo.png">
+          <img src="https://aurora-1255840532.cos.ap-chengdu.myqcloud.com/8918a306ea314404835a9196585c4b75.jpeg">
         </div>
       </el-menu-item>
       <sidebar-item v-for="route in permission_routers" :key="route.path" :item="route" :base-path="route.path"/>
