@@ -80,9 +80,7 @@ const base = {
     },
 }
 
-const userOpt = {
-    getUser: 'select * from user where username=?'
-}
+
 
 const work = {
     delete: 'delete  from work where id=?'
@@ -150,11 +148,11 @@ const courselist={
 
 
 
-const users={
+const userOpt={
     login: 'select * from users where nickname="?" and password="?" ',
     getOne: 'select * from users where id=?',
     
-    updateF:'update users set followers="?" where id=?',
+    find:'select u.* from user u left join users_roles ur on ur.user_id=u.id left join role r on r.id=ur.role_id where r.name="老师"',
     updateL:'update users set likes="?" where id=?',
     updateBio:'update users set bio="?" where id=?',
     updateNick:'update users set nickname="?" where id=?',
@@ -175,30 +173,29 @@ const erea_info={
     topN:'SELECT * FROM pub_content ORDER BY like_count DESC LIMIT 0,3'
 }
 
-const user_pub={
-    find: 'select pc.* from users u left join user_pub up on up.cus_id=u.id left join pub_content pc on pc.id=up.pub_id where u.id=?',
-    delete:'delete from user_pub where cus_id=? AND pub_id=?',
-    findLike:'select * from user_pub where cus_id=? AND pub_id=?',
-    findMyLike:'select * from user_pub where cus_id=?'
+const exp_plan={
+    getAll:'SELECT * FROM exp_plan',
+    yuyue:'update exp_plan set remaind=remaind-1 where course_number="?"',
+    cancel_yuyue:'update exp_plan set remaind=remaind+1 where course_number="?"'
 }
 
-const topic={
-    inc: 'update topic set count=count+1 where id=?',
-    getAll:'SELECT * FROM topic',
-    findFollow:'select * from user_follow where cus_id=? AND cus_follow_id=?',
-    delete:'delete from user_follow where cus_id=? AND cus_follow_id=?',
-    getOne:'select * from topic where id=?'
+const experiment={
+   
+    getAll:'SELECT * FROM experiment',
+  
+    getOne:'select * from experiment where id=?'
 }
 
 
-const commentlist={
-    find: 'select c.id ,c.cus_nickname,c.`comment`,c.cus_id,c.pub_id ,date_format(c.create_time,"%Y-%m-%d %T) AS create_time from commentlist c where pub_id=?',
+const course={
+    getAll:'select * from course',
+    find: 'select c.id ,c.cus_nickname,c.`comment`,c.cus_id,c.pub_id ,date_format(c.create_time,"%Y-%m-%d %T) AS create_time from course c where pub_id=?',
 }
 
 
 module.exports = {
     pageList,
-    userOpt,
+ 
     work,
     base,
     customers,
@@ -211,13 +208,13 @@ module.exports = {
     intro,
     teacherOpt,
     rate,
-    commentlist,
+    course,
     course_class,
     typelist,
     courselist,
 
-    users,
-
+    userOpt,
+    exp_plan,
     erea_info,
-    topic
+    experiment
 };

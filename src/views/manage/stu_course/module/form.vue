@@ -1,0 +1,163 @@
+<template>
+    <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
+        <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
+
+            <el-form-item label="姓名" prop="stuName">
+                <el-input v-model="form.stuName" style="width: 370px;" />
+            </el-form-item>
+            <el-form-item label="学号" prop="stuNumber">
+                <el-input v-model="form.stuNumber" style="width: 370px;" />
+            </el-form-item>
+            <el-form-item label="实验安排计划号" prop="explanNumber">
+                <el-select v-model="form.explanNumber" placeholder="请选择" style="width: 370px;" @change="findUserName" >
+                    <el-option v-for="item in exp_plan_opt" :key="item.course_number" :label="item.course_number" :value="item.course_number">
+                    </el-option>
+                </el-select>
+                <!-- <el-input v-model="form.explanNumber" style="width: 370px;" /> -->
+            </el-form-item>
+            <el-form-item label="课程名" prop="expName">
+                <el-input :readonly="true" v-model="ext.course_name" style="width: 370px;" />
+            </el-form-item>
+             <el-form-item label="授课老师" prop="expName">
+                <el-input :readonly="true" v-model="ext.tea_name" style="width: 370px;" />
+            </el-form-item>
+            <el-form-item label="项目名称" prop="expName">
+                <el-input :readonly="true" v-model="form.expName" style="width: 370px;" />
+            </el-form-item>
+            <!-- <el-form-item
+                        label="创建时间"
+                        prop="createTime">
+                        <el-date-picker
+                                v-model="form.createTime"
+                                type="date"
+                                style="width: 370px;"
+                                placeholder="选择日期">
+                        </el-date-picker>
+                </el-form-item> -->
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="text" @click="cancel">取消</el-button>
+            <el-button :loading="loading" type="primary" @click="doSubmit">预约</el-button>
+        </div>
+    </el-dialog>
+</template>
+
+<script>
+import { add, edit } from "@/api/stuCourse";
+import { course, userOpt,experiment,exp_plan } from "@/sqlMap";
+export default {
+  props: {
+    isAdd: {
+      type: Boolean,
+      required: true
+    },
+    sup_this: {
+      type: Object,
+      default: null
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      dialog: false,
+      ext:{},
+      form: {
+        id: "",
+        stuName: "",
+        stuNumber: "",
+        explanNumber: "",
+        expName: "",
+        createTime: ""
+      },
+      rules: {
+        id: [{ required: true, message: "ID", trigger: "blur" }],
+
+        createTime: [{ required: true, message: "创建时间", trigger: "blur" }]
+      },
+      exp_plan_opt:[]
+
+    };
+  },
+  created(){
+      var sql=exp_plan.getAll
+      this.$http.post("action", { sql: sql }).then(res => {
+          this.exp_plan_opt=res.data
+      })
+     
+  },
+  methods: {
+    cancel() {
+      this.resetForm();
+    },
+    doSubmit() {
+      this.loading = true;
+      if (this.isAdd) {
+        this.doAdd();
+      } else this.doEdit();
+    },
+    doAdd() {
+      add(this.form)
+        .then(res => {
+             var sql=exp_plan.yuyue.replace('?',this.form.explanNumber)
+        this.$http.post("action", { sql: sql }).then(res => {
+            // this.course_opt=res.data
+        })
+          this.resetForm();
+           
+          this.$notify({
+            title: "添加成功",
+            type: "success",
+            duration: 2500
+          });
+          this.loading = false;
+          this.$parent.$parent.init();
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(err.response.data.message);
+        });
+    },
+    doEdit() {
+      edit(this.form)
+        .then(res => {
+          this.resetForm();
+          this.$notify({
+            title: "修改成功",
+            type: "success",
+            duration: 2500
+          });
+          this.loading = false;
+          this.sup_this.init();
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(err.response.data.message);
+        });
+    },
+    resetForm() {
+      this.dialog = false;
+      this.$refs["form"].resetFields();
+      this.form = {
+        id: "",
+        stuName: "",
+        stuNumber: "",
+        explanNumber: "",
+        expName: "",
+        createTime: ""
+      };
+    },
+     findUserName(event) {
+       this.exp_plan_opt.forEach(item=>{
+           if (item.course_number==event) {
+               this.form.expName=item.exp_name
+               this.ext=item
+               return
+           }
+       })
+    }
+  }
+};
+</script>
+
+<style scoped>
+</style>
