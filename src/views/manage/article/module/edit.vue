@@ -23,10 +23,12 @@ export default {
       const _this = this.$refs.form
       _this.form = {
         id: this.data.id,
-        name: this.data.name,
-        desciption: this.data.desciption,
-        price: this.data.price,
-        createTime: this.data.createTime
+        title: this.data.title,
+        content: this.data.content,
+        cus: this.data.cus,
+        createTime: this.data.createTime,
+        tea: this.data.tea,
+        read: this.data.read
       }
       _this.dialog = true
     }

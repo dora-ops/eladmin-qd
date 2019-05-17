@@ -24,9 +24,9 @@ export default {
       _this.form = {
         id: this.data.id,
         title: this.data.title,
-        send: this.data.send,
-        receive: this.data.receive,
-        content: this.data.content,
+        score: this.data.score,
+        tea: this.data.tea,
+        cus: this.data.cus,
         createTime: this.data.createTime
       }
       _this.dialog = true

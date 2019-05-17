@@ -1,14 +1,16 @@
 <template>
   <div>
+      <h1>实习报告</h1>
+       <span>标题</span>
+    <el-input v-model="title" style="width: 370px;"/>
+        
+  
+      
     <div ref="editor" style="text-align:left;margin: 5px">
-      <h3 style="text-align: center;">欢迎使用 wangEditor 富文本编辑器!</h3>
-      <ul>
-        <li>富文本中图片上传使用的是sm.ms图床，支持上传到七牛云：<a style="color: #42b983" target="_blank" href="https://sm.ms/">sm.ms</a></li>
-        <li>更多帮助请查看官方文档：<a style="color: #42b983" target="_blank" href="https://www.kancloud.cn/wangfupeng/wangeditor3/332599">wangEditor</a></li>
-      </ul>
     </div>
-    <div style="margin: 12px 5px;font-size: 16px;font-weight: bold;color: #696969">HTML渲染如下：</div>
-    <div class="editor-content" v-html="editorContent"/>
+    <el-button  type="primary" @click="doSubmit">上传</el-button>
+    <!-- <div style="margin: 12px 5px;font-size: 16px;font-weight: bold;color: #696969">HTML渲染如下：</div>
+    <div class="editor-content" v-html="editorContent"/> -->
   </div>
 </template>
 
@@ -16,18 +18,15 @@
 import { mapGetters } from 'vuex'
 import E from 'wangeditor'
 import { getToken } from '@/utils/auth'
+import { html_encode ,html_decode} from '@/sqlMap'
 export default {
   data() {
     return {
       headers: {
         'Authorization': 'Bearer ' + getToken()
       },
-      editorContent:
-        `<h3 style="text-align: center;">欢迎使用 wangEditor 富文本编辑器!</h3>
-        <ul>
-          <li>富文本中图片上传使用的是sm.ms图床，支持上传到七牛云：<a style="color: #42b983" target="_blank" href="https://sm.ms/">sm.ms</a></li>
-          <li>更多帮助请查看官方文档：<a style="color: #42b983" target="_blank" href="https://www.kancloud.cn/wangfupeng/wangeditor3/332599">wangEditor</a></li>
-        </ul>`
+      editorContent:'',
+      title:''
     }
   },
   computed: {
@@ -47,6 +46,15 @@ export default {
       this.editorContent = html
     }
     editor.create()
+  },
+  methods:{
+      doSubmit() {
+          var userInfo= JSON.parse(localStorage.getItem('userInfo')) 
+          var data={title:this.title,content:this.editorContent,cus:userInfo.username}
+       this.$http.post("insert", { table: 'article',data:data }).then(res => {
+          
+      })
+    },
   }
 }
 </script>

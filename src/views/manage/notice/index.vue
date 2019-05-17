@@ -4,9 +4,8 @@
     <!--表格渲染-->
     <el-table v-loading="loading" :data="data" size="small" style="width: 100%;">
       <el-table-column prop="title" label="标题"/>
-      <el-table-column prop="type" label="类型"/>
-      <el-table-column prop="send" label="发送人id"/>
-      <el-table-column prop="receive" label="接受人id"/>
+      <el-table-column prop="send" label="发送人"/>
+      <el-table-column prop="receive" label="接受人"/>
       <el-table-column prop="content" label="内容"/>
       <el-table-column prop="createTime" label="创建日期">
         <template slot-scope="scope">
@@ -15,9 +14,9 @@
       </el-table-column>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <edit v-if="checkPermission(['ADMIN','notice_edit'])" :data="scope.row" :sup_this="sup_this"/>
+          <edit v-if="checkPermission(['ADMIN'])" :data="scope.row" :sup_this="sup_this"/>
           <el-popover
-            v-if="checkPermission(['ADMIN','notice_delete'])"
+            v-if="checkPermission(['ADMIN'])"
             :ref="scope.row.id"
             placement="top"
             width="180">
@@ -46,6 +45,7 @@ import checkPermission from '@/utils/permission'
 import initData from '@/mixins/initData'
 import { del } from '@/api/notice'
 import { parseTime } from '@/utils/index'
+import { notice } from '@/sqlMap'
 import eHeader from './module/header'
 import edit from './module/edit'
 export default {
@@ -57,6 +57,7 @@ export default {
     }
   },
   created() {
+    //   this.$http.post("/action", { sql: notice.getAll }).then(res => {});
     this.$nextTick(() => {
       this.init()
     })
@@ -67,13 +68,8 @@ export default {
     beforeInit() {
       this.url = 'api/notice'
       const sort = 'id,desc'
-      
-      this.params = { page: this.page, size: this.size, sort: sort }
-      if (checkPermission(['PICTURE_ALL'])) {
-          this.params.type='pro_topic'
-      }else if (checkPermission(['JOB_ALL'])) {
-           this.params.type='express'
-      }
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"))
+      this.params = { page: this.page, size: this.size, sort: sort,send:userInfo.username,receive:userInfo.username }
       const query = this.query
       const type = query.type
       const value = query.value

@@ -7,22 +7,22 @@
                         <el-input v-model="form.title" style="width: 370px;"/>
                     </el-form-item>
                 <el-form-item
-                        label="发送人"
-                        prop="send">
-                        <el-input v-model="form.send" style="width: 370px;"/>
+                        label="分数"
+                        prop="score">
+                        <el-input v-model="form.score" style="width: 370px;"/>
                     </el-form-item>
                 <el-form-item
-                        label="接受人"
-                        prop="receive">
-                        <el-input v-model="form.receive" style="width: 370px;"/>
+                        label="老师"
+                        prop="tea">
+                        <el-input v-model="form.tea" style="width: 370px;"/>
                     </el-form-item>
                 <el-form-item
-                        label="内容"
-                        prop="content">
-                        <el-input type="textarea" v-model="form.content" style="width: 370px;"/>
+                        label="学生"
+                        prop="cus">
+                        <el-input v-model="form.cus" style="width: 370px;"/>
                     </el-form-item>
-                <!-- <el-form-item
-                        label="创建日期"
+                <el-form-item
+                        label="创建时间"
                         prop="createTime">
                         <el-date-picker
                                 v-model="form.createTime"
@@ -30,7 +30,7 @@
                                 style="width: 370px;"
                                 placeholder="选择日期">
                         </el-date-picker>
-                    </el-form-item> -->
+                    </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button type="text" @click="cancel">取消</el-button>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-    import {add, edit} from '@/api/notice'
+    import {add, edit} from '@/api/grade'
 
     export default {
         props: {
@@ -59,25 +59,23 @@
                 form: {
             id: '',
             title: '',
-            send: '',
-            receive: '',
-            content: '',
+            score: '',
+            tea: '',
+            cus: '',
             createTime: ''
         },
             rules: {
                     id: [
-                        {required: true, message: '', trigger: 'blur'}
+                        {required: true, message: 'ID', trigger: 'blur'}
                     ],
-                    title: [
-                        {required: true, message: '标题', trigger: 'blur'}
+
+                    score: [
+                        {required: true, message: '分数', trigger: 'blur'}
                     ],
 
 
-                    content: [
-                        {required: true, message: '内容', trigger: 'blur'}
-                    ],
                     createTime: [
-                        {required: true, message: '创建日期', trigger: 'blur'}
+                        {required: true, message: '创建时间', trigger: 'blur'}
                     ]
             }
         ,
@@ -131,9 +129,9 @@
                 this.form = {
                 id: '',
                 title: '',
-                send: '',
-                receive: '',
-                content: '',
+                score: '',
+                tea: '',
+                cus: '',
                 createTime: ''
             }
             }

@@ -7,16 +7,16 @@
     </el-select>
     <el-button class="filter-item" size="mini" type="primary" icon="el-icon-search" @click="toQuery">搜索</el-button>
     <!-- 新增 -->
-    <div style="display: inline-block;margin: 0px 2px;">
+    <!-- <div style="display: inline-block;margin: 0px 2px;">
       <el-button
-        v-if="checkPermission(['ADMIN','DICT_CREATE'])"
+        v-if="checkPermission(['ADMIN'])"
         class="filter-item"
         size="mini"
         type="primary"
         icon="el-icon-plus"
         @click="$refs.form.dialog = true">新增</el-button>
       <eForm ref="form" :is-add="true"/>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       queryTypeOptions: [
-        { key: 'name', display_name: '名称' }
+        { key: 'title', display_name: '标题' }
       ]
     }
   },

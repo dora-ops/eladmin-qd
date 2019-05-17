@@ -4,63 +4,7 @@
     
 
     <panel-group/>
-     <el-row>
-        <el-col span="24">
-          <el-carousel
-            v-model="value3"
-            :autoplay="setting.autoplay"
-            :autoplay-speed="setting.autoplaySpeed"
-            :dots="setting.dots"
-            :radius-dot="setting.radiusDot"
-            :trigger="setting.trigger"
-            :arel-row="setting.arelRow">
-            <!-- <el-carousel-item v-for="pic in picList" :key="pic.id">
-              <img class="carousel" v-bind:src="pic.url"/>
-            </el-carousel-item> -->
-            <el-carousel-item>
-              <div class="carousel cal2"></div>
-            </el-carousel-item>
-            <el-carousel-item>
-              <div class="carousel cal3"></div>
-            </el-carousel-item>
-            <el-carousel-item>
-              <div class="carousel cal4"></div>
-            </el-carousel-item>
-          </el-carousel>
-        </el-col>
-       
-      </el-row>
-      <el-row class="margin-top-10">
-        <el-col span="12">
-          <el-card>
-            <h4>
-                  <!-- <svg-icon :icon-class="item"  /> -->
-              <!-- <Icon type="android-archive"></Icon> -->
-              <i class="el-icon-edit">社区信息</i>
-            </h4>
-            <div class="to-do-list-con">
-              <div v-for="(item, index) in toDoList" :key="'todo-item' + (toDoList.length - index)" class="to-do-item">
-           
-                <li class="Li" :title="item.name" @click="toDetail(item.id)">{{item.name}}</li>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col span="12">
-          <el-card class="margin-left-10">
-            <h4>
-                  <!-- <svg-icon :icon-class="android-archive" /> -->
-             <i class="el-icon-edit">政府公告</i>
-              
-            </h4>
-            <div class="to-do-list-con">
-              <div v-for="(item, index) in toDoList1" :key="'todo-item' + (toDoList.length - index)" class="to-do-item">
-                <li class="Li" :title="item.title" @click="toTopic(item.id)">{{item.title}}</li>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
+    <iframe scrolling="no" frameborder="0" style="min-height:900px;width:100%;height:100%;" id="mainContent" src="http://localhost:3000/1.html" width="100%" height="100%"></iframe>
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart/>

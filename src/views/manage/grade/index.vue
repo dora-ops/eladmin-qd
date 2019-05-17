@@ -3,19 +3,20 @@
     <eHeader :query="query"/>
     <!--表格渲染-->
     <el-table v-loading="loading" :data="data" size="small" style="width: 100%;">
-      <el-table-column prop="name" label="名称"/>
-      <el-table-column prop="desciption" label="描述"/>
-      <el-table-column prop="price" label="价格"/>
-      <el-table-column prop="createTime" label="创建日期">
+      <el-table-column prop="title" label="标题"/>
+      <el-table-column prop="score" label="分数"/>
+      <el-table-column prop="tea" label="老师"/>
+      <el-table-column prop="cus" label="学生"/>
+      <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150px" align="center">
+      <el-table-column v-if="checkPermission(['ADMIN'])&&!checkPermission(['REDIS_ALL'])" label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <edit v-if="checkPermission(['ADMIN','DICT_EDIT'])" :data="scope.row" :sup_this="sup_this"/>
+          <edit v-if="checkPermission(['ADMIN'])" :data="scope.row" :sup_this="sup_this"/>
           <el-popover
-            v-if="checkPermission(['ADMIN','DICT_DELETE'])"
+            v-if="checkPermission(['ADMIN'])"
             :ref="scope.row.id"
             placement="top"
             width="180">
@@ -42,7 +43,7 @@
 <script>
 import checkPermission from '@/utils/permission'
 import initData from '@/mixins/initData'
-import { del } from '@/api/goods'
+import { del } from '@/api/grade'
 import { parseTime } from '@/utils/index'
 import eHeader from './module/header'
 import edit from './module/edit'
@@ -63,7 +64,7 @@ export default {
     parseTime,
     checkPermission,
     beforeInit() {
-      this.url = 'api/goods'
+      this.url = 'api/grade'
       const sort = 'id,desc'
       this.params = { page: this.page, size: this.size, sort: sort }
       const query = this.query
