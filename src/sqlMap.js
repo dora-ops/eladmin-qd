@@ -179,11 +179,9 @@ const exp_plan={
     cancel_yuyue:'update exp_plan set remaind=remaind+1 where course_number="?"'
 }
 
-const experiment={
-   
-    getAll:'SELECT * FROM experiment',
-  
-    getOne:'select * from experiment where id=?'
+const spider_task={
+
+    update:'update spider_task set state="?" where id=?'
 }
 
 
@@ -216,5 +214,5 @@ module.exports = {
     userOpt,
     exp_plan,
     erea_info,
-    experiment
+    spider_task
 };
