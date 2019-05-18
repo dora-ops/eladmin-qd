@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px" class="login-form">
-      <h3 class="title">实验管理系统</h3>
+      <h3 class="title">质地实习系统</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon" style="height: 39px;width: 13px;margin-left: 2px;" />
@@ -27,6 +27,8 @@
 <script>
 import Config from '@/config'
 import Cookies from 'js-cookie'
+import { dish ,address,userOpt} from "@/sqlMap.js";
+import { login, getInfo } from '@/api/login'
 export default {
   name: 'Login',
   data() {
@@ -84,6 +86,18 @@ export default {
           }
           this.$store.dispatch('Login', user).then(() => {
             this.loading = false
+            getInfo().then(res => {
+                var sql = userOpt.getOne.replace("?", res.username);
+                this.$http
+                  .post("action", {
+                    sql: sql
+                  })
+                  .then(res => {
+                    var user = res.data[0];
+                    debugger
+                    localStorage.setItem('userInfo',JSON.stringify(user) )
+                  });
+              });
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
             this.loading = false

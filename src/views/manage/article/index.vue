@@ -11,12 +11,12 @@
                     <span>{{ parseTime(scope.row.createTime) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="成绩">
+            <el-table-column v-if="checkPermission(['ADMIN'])&&!checkPermission(['REDIS_ALL'])" label="成绩">
                 <template slot-scope="scope">
-                    <el-button @click="toScore(scope.row)" size="mini">打分</el-button>
+                    <el-button v-show="scope.row.state!='finish'" @click="toScore(scope.row)" size="mini">打分</el-button>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="150px" align="center">
+            <el-table-column v-if="checkPermission(['ADMIN'])&&!checkPermission(['REDIS_ALL'])" label="操作" width="150px" align="center">
                 <template slot-scope="scope">
                     <el-button v-show="scope.row.read!=1" @click="read(scope.row.id)" size="mini">批阅</el-button>
                     <!-- <edit v-if="checkPermission(['ADMIN'])" :data="scope.row" :sup_this="sup_this"/> -->
@@ -74,7 +74,8 @@ export default {
       sup_this: this,
       dialog: false,
       form: {},
-      loading: false
+      loading: false,
+      score_id:0
     };
   },
   created() {
@@ -130,11 +131,14 @@ export default {
         this.dialog=true
         this.form.cus=row.cus
         this.form.title=row.title
+        this.score_id=row.id
         var userInfo = JSON.parse(localStorage.getItem("userInfo"));
         this.form.tea=userInfo.username
     },
      doSubmit() {
       this.$http.post("insert", { table: 'grade',data:this.form }).then(res => {
+         var sql= article.next.replace('?','finish').replace('?',this.score_id)
+          this.$http.post("/action", { sql: sql }).then(res => {});
           this.dialog=false
       })
     },

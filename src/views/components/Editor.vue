@@ -52,7 +52,7 @@ export default {
           var userInfo= JSON.parse(localStorage.getItem('userInfo')) 
           var data={title:this.title,content:this.editorContent,cus:userInfo.username}
        this.$http.post("insert", { table: 'article',data:data }).then(res => {
-          
+          this.$router.push('/manage/article')
       })
     },
   }

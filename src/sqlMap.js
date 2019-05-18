@@ -149,15 +149,8 @@ const courselist = {
 
 
 const userOpt = {
-    login: 'select * from users where nickname="?" and password="?" ',
-    getOne: 'select * from users where id=?',
-
-    find: 'select u.* from user u left join users_roles ur on ur.user_id=u.id left join role r on r.id=ur.role_id where r.name="老师"',
-    updateL: 'update users set likes="?" where id=?',
-    updateBio: 'update users set bio="?" where id=?',
-    updateNick: 'update users set nickname="?" where id=?',
-    updatePass: 'update users set password="?" where id=?',
-    updatePhoto: 'update users set photo="?" where id=?',
+    login: 'select * from user where username="?" and password="?" ',
+    getOne: 'select * from user where username="?"',
 }
 
 const erea_info = {
@@ -222,7 +215,13 @@ function html_decode(str) {
 
 const article = {
     getOne: 'select * from article where id=?',
-    read:'update article set `read`=1,tea="?" where id=?'
+    read:'update article set `read`=1,tea="?" where id=?',
+    next:'update article set state="?" where id=?'
+}
+
+const notice = {
+    getAll: 'select * from notice',
+    find: 'select * from notice where ',
 }
 
 module.exports = {
@@ -250,5 +249,6 @@ module.exports = {
     erea_info,
     experiment,
     html_encode,
-    html_decode
+    html_decode,
+    notice
 };
