@@ -160,9 +160,9 @@ const userOpt={
     updatePhoto:'update users set photo="?" where id=?',
 }
 
-const erea_info={
-    getOne: 'select * from erea_info where id=?',
-    getAll:'select * from erea_info',
+const spider_info={
+    getOne: 'select * from spider_info where id=?',
+    getAll:'select * from spider_info',
     find:'select * from pub_content where cus_id=?',
     findByTitle:'select * from pub_content where title like "%?%"',
     delete:'delete  from pub_content where id=?',
@@ -213,6 +213,6 @@ module.exports = {
 
     userOpt,
     exp_plan,
-    erea_info,
+    spider_info,
     spider_task
 };
