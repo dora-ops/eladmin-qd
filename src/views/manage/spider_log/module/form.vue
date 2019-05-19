@@ -14,7 +14,7 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                <el-form-item
+                <!-- <el-form-item
                         label="创建时间"
                         prop="createTime">
                         <el-date-picker
@@ -23,7 +23,7 @@
                                 style="width: 370px;"
                                 placeholder="选择日期">
                         </el-date-picker>
-                    </el-form-item>
+                    </el-form-item> -->
                 <el-form-item
                         label="请求地址"
                         prop="url">
