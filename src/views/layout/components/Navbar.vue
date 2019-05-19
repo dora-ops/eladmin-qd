@@ -63,6 +63,7 @@ export default {
     },
     logout() {
       this.$store.dispatch('LogOut').then(() => {
+        localStorage.removeItem('userInfo')
         location.reload() // 为了重新实例化vue-router对象 避免bug
       })
     }

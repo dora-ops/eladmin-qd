@@ -149,8 +149,8 @@ const courselist={
 
 
 const userOpt={
-    login: 'select * from users where nickname="?" and password="?" ',
-    getOne: 'select * from users where id=?',
+    login: 'select * from user where username="?" and password="?" ',
+    getOne: 'select * from user where username="?"',
     
     find:'select u.* from user u left join users_roles ur on ur.user_id=u.id left join role r on r.id=ur.role_id where r.name="老师"',
     updateL:'update users set likes="?" where id=?',

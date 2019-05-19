@@ -30,37 +30,7 @@
         </el-col>
        
       </el-row>
-      <el-row class="margin-top-10">
-        <el-col span="12">
-          <el-card>
-            <h4>
-                  <!-- <svg-icon :icon-class="item"  /> -->
-              <!-- <Icon type="android-archive"></Icon> -->
-              <i class="el-icon-edit">社区信息</i>
-            </h4>
-            <div class="to-do-list-con">
-              <div v-for="(item, index) in toDoList" :key="'todo-item' + (toDoList.length - index)" class="to-do-item">
-           
-                <li class="Li" :title="item.name" @click="toDetail(item.id)">{{item.name}}</li>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col span="12">
-          <el-card class="margin-left-10">
-            <h4>
-                  <!-- <svg-icon :icon-class="android-archive" /> -->
-             <i class="el-icon-edit">政府公告</i>
-              
-            </h4>
-            <div class="to-do-list-con">
-              <div v-for="(item, index) in toDoList1" :key="'todo-item' + (toDoList.length - index)" class="to-do-item">
-                <li class="Li" :title="item.title" @click="toTopic(item.id)">{{item.title}}</li>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
+    
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart/>
