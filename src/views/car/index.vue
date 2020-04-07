@@ -7,7 +7,7 @@
       <el-table-column prop="name" label="车名"/>
       <el-table-column prop="price" label="价格"/>
       <el-table-column prop="type" label="牌子"/>
-      <el-table-column prop="status" label="状态"/>
+      <el-table-column prop="status" label="状态" :formatter = "stateFormat"/>
       <el-table-column prop="img" label="图片"/>
       <el-table-column prop="uid" label="发布人"/>
       <el-table-column prop="createTime" label="创建时间">
@@ -109,7 +109,22 @@ export default {
         location.reload()
       });
      
-    }
+    },
+    stateFormat(row, column) {
+      // debugger
+        console.log(column)
+        if (row.status === '0') {
+          return '未发布'
+        } else if (row.status === '1') {
+          return '审批中'
+        } else if (row.status === '2') {
+          return '通过'
+        }else if (row.status === '3') {
+          return '出租'
+        }
+        return row.status
+      }
+
   }
 };
 </script>

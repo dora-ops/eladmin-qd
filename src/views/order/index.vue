@@ -5,7 +5,7 @@
     <el-table v-loading="loading" :data="data" size="small" style="width: 100%;">
       <el-table-column prop="id" label="id"/>
       <el-table-column prop="price" label="花费"/>
-      <el-table-column prop="type" label="行为"/>
+      <el-table-column prop="type" label="行为" :formatter = "stateFormat"/>
       <el-table-column prop="uid" label="用户"/>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
@@ -82,7 +82,16 @@ export default {
         this.$refs[id].doClose()
         console.log(err.response.data.message)
       })
-    }
+    },
+    stateFormat(row, column) {
+
+        if (row.type === '1') {
+          return '租车'
+        } else if (row.type === '2') {
+          return '买车'
+        } 
+        return row.type
+      }
   }
 }
 </script>

@@ -4,7 +4,7 @@
     <!--表格渲染-->
     <el-table v-loading="loading" :data="data" size="small" style="width: 100%;">
       <el-table-column prop="id" label="id"/>
-      <el-table-column prop="role" label="角色"/>
+      <el-table-column prop="role" label="角色" :formatter = "stateFormat"/>
       <el-table-column prop="username" label="用户名"/>
       <el-table-column prop="password" label="密码"/>
       <el-table-column label="操作" width="150px" align="center">
@@ -82,7 +82,16 @@ export default {
         this.$refs[id].doClose()
         console.log(err.response.data.message)
       })
-    }
+    },
+    stateFormat(row, column) {
+
+        if (row.role === '0') {
+          return '租车人'
+        } else if (row.role === '1') {
+          return '车主'
+        } 
+        return row.role
+      }
   }
 }
 </script>
