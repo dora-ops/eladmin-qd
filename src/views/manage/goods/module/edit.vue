@@ -22,7 +22,7 @@ export default {
     to() {
       const _this = this.$refs.form
       _this.form = {
-        id: this.data.id,
+        id: this.data._id,
         name: this.data.name,
         desciption: this.data.desciption,
         price: this.data.price,

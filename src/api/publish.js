@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function add(data) {
   return request({
-    url: 'api/user',
+    url: 'api/publish',
     method: 'post',
     data
   })
@@ -10,28 +10,28 @@ export function add(data) {
 
 export function queryAll() {
   return request({
-  url: 'api/queryAll/user',
+  url: 'api/queryAll/publish',
   method: 'get',
   })
 }
 
 export function findById() {
   return request({
-  url: 'api/findById/user',
+  url: 'api/findById/publish',
   method: 'get',
   })
 }
 
 export function del(id) {
   return request({
-    url: 'api/user/' + id,
+    url: 'api/publish/' + id,
     method: 'delete'
   })
 }
 
 export function edit(data) {
   return request({
-    url: 'api/user',
+    url: 'api/publish',
     method: 'put',
     data
   })
