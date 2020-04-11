@@ -46,6 +46,8 @@
                 </div>
                 <el-button slot="reference" type="danger" size="mini">删除</el-button>
               </el-popover>
+              <!-- 学期成绩权限及区别用户 -->
+              <el-button  type="primary" size="mini" @click="toGrade(scope.row)">学期成绩</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -144,6 +146,11 @@ export default {
         this.deptId = data.id
       }
       this.init()
+    },
+    toGrade(row){
+      this.$router.push({path:'/monitor/msg',query:{
+          id:row.id
+        }})
     }
   }
 }

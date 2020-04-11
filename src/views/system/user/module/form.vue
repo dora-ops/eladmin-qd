@@ -1,17 +1,60 @@
 <template>
-  <el-dialog :visible.sync="dialog" :title="isAdd ? '新增用户' : '编辑用户'" append-to-body width="570px">
-    <el-form ref="form" :inline="true" :model="form" :rules="rules" size="small" label-width="66px">
+  <el-dialog :visible.sync="dialog" :title="isAdd ? '新增用户' : '编辑用户'" append-to-body width="620px">
+    <el-form ref="form" :inline="true" :model="form" :rules="rules" size="small" label-width="88px">
       <el-form-item label="用户名" prop="username">
         <el-input v-model="form.username"/>
       </el-form-item>
       <el-form-item label="状态" prop="enabled">
         <el-radio v-for="item in dicts" :key="item.id" v-model="form.enabled" :label="item.value">{{ item.label }}</el-radio>
       </el-form-item>
+       <el-form-item label="学号" prop="sno">
+        <el-input v-model="form.sno"/>
+      </el-form-item>
+      <el-form-item label="性别" prop="sex">
+        <el-radio v-for="item in sexdicts" :key="item.id" v-model="form.sex" :label="item.value">{{ item.label }}</el-radio>
+      </el-form-item>
       <el-form-item label="电话" prop="phone">
         <el-input v-model.number="form.phone" />
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" />
+      </el-form-item>
+       <el-form-item label="专业" prop="major">
+        <el-input v-model.number="form.major" />
+      </el-form-item>
+      <el-form-item label="地址" prop="address">
+        <el-input v-model="form.address" />
+      </el-form-item>
+       <el-form-item label="入学时间" prop="startTime">
+        <el-date-picker v-model="form.startTime"  type="year"
+                                style="width: 370px;"
+                                placeholder="选择日期" />
+      </el-form-item>
+      <el-form-item label="毕业时间" prop="endTime">
+        <el-date-picker v-model="form.endTime"  type="year" 
+                                style="width: 370px;"
+                                placeholder="选择日期" />
+      </el-form-item>
+      <el-form-item label="总学分" prop="totalScore">
+        <el-input v-model="form.totalScore" />
+      </el-form-item>
+      <el-form-item label="个人学分" prop="personScore">
+        <el-input v-model="form.personScore" />
+      </el-form-item>
+       <el-form-item label="个人能力" prop="abilityScore">
+        <el-input v-model="form.abilityScore" />
+      </el-form-item>
+      <el-form-item label="文体活动" prop="wenhuaScore">
+        <el-input v-model="form.wenhuaScore" />
+      </el-form-item>
+      <el-form-item label="品德基础分" prop="pindenBaseScore">
+        <el-input v-model="form.pindenBaseScore" />
+      </el-form-item>
+      <el-form-item label="品德奖励分" prop="pindenPrizeScore">
+        <el-input v-model="form.pindenPrizeScore" />
+      </el-form-item>
+      <el-form-item label="品德扣奖分" prop="pindenDesScore">
+        <el-input v-model="form.pindenDesScore" />
       </el-form-item>
       <el-form-item label="部门">
         <treeselect v-model="deptId" :options="depts" :style="style" placeholder="选择部门" @select="selectFun" />
@@ -77,6 +120,8 @@ export default {
       }
     }
     return {
+      sexdicts:[ { value: 'true', label: '男' },
+        { value: 'false', label: '女' }],
       dialog: false, loading: false, form: { username: '', email: '', enabled: 'false', roles: [], job: { id: '' }, dept: { id: '' }, phone: null },
       roleIds: [], roles: [], depts: [], deptId: null, jobId: null, jobs: [], style: 'width: 184px',
       rules: {
@@ -93,6 +138,18 @@ export default {
         ],
         enabled: [
           { required: true, message: '状态不能为空', trigger: 'blur' }
+        ],
+        sno: [
+          { required: true,trigger: 'blur' }
+        ],
+        sex: [
+          { required: true,trigger: 'blur' }
+        ],
+         startTime: [
+          { required: true,trigger: 'blur' }
+        ],
+         endTime: [
+          { required: true,trigger: 'blur' }
         ]
       }
     }
