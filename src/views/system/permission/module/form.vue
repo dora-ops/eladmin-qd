@@ -1,6 +1,6 @@
 <template>
   <el-dialog :visible.sync="dialog" :title="isAdd ? '新增权限' : '编辑权限'" append-to-body width="500px">
-    <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
+    <el-form ref="form" :model="form" :rules="rules" size="small" label-width="100px">
       <el-form-item label="名称" prop="name">
         <el-input v-model="form.name" style="width: 360px;"/>
       </el-form-item>

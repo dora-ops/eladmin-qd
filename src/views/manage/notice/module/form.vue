@@ -1,6 +1,6 @@
 <template>
   <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
-    <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
+    <el-form ref="form" :model="form" :rules="rules" size="small" label-width="100px">
       <el-form-item label="标题" prop="title">
         <el-input v-model="form.title" style="width: 370px;"/>
       </el-form-item>
