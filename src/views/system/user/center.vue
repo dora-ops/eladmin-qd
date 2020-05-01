@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="5">
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>个人信息</span>
@@ -36,7 +36,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="19">
+      <!-- <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="19">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>操作日志</span>
@@ -44,7 +44,7 @@
           </div>
           <log ref="log"/>
         </el-card>
-      </el-col>
+      </el-col> -->
     </el-row>
     <updateEmail ref="email" :email="user.email"/>
     <updatePass ref="pass"/>
