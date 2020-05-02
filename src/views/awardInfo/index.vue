@@ -50,6 +50,7 @@ import { del } from '@/api/awardInfo'
 import { parseTime } from '@/utils/index'
 import eHeader from './module/header'
 import edit from './module/edit'
+import { mapGetters } from 'vuex'
 export default {
   components: { eHeader, edit },
   mixins: [initData],
@@ -63,6 +64,12 @@ export default {
       this.init()
     })
   },
+   computed: {
+    ...mapGetters([
+      'user',
+      'updateAvatarApi'
+    ])
+  },
   methods: {
     parseTime,
     checkPermission,
@@ -74,6 +81,10 @@ export default {
       const type = query.type
       const value = query.value
       if (type && value) { this.params[type] = value }
+      if (!checkPermission(['USER_ALL'])) {
+         this.params['dealUid']=this.user.id
+      }
+      
       return true
     },
     subDelete(id) {

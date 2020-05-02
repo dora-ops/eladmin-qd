@@ -1,11 +1,14 @@
 <template>
   <div>
-    <el-button size="mini" type="success" @click="to">编辑</el-button>
-    <eForm ref="form" :sup_this="sup_this" :is-add="false"/>
+    <el-button size="mini" type="success" @click="to">执行案件</el-button>
+
+    <eForm  ref="form" :sup_this="sup_this" :is-add="false" />
+    
   </div>
 </template>
 <script>
-import eForm from './form'
+import eForm from "./form";
+import eForm1 from "./form1";
 export default {
   components: { eForm },
   props: {
@@ -16,11 +19,15 @@ export default {
     sup_this: {
       type: Object,
       required: true
-    }
+    },
+    // opt: {
+    //   type: Number,
+    //   required: true
+    // }
   },
   methods: {
     to() {
-      const _this = this.$refs.form
+      const _this = this.$refs.form;
       _this.form = {
         id: this.data.id,
         kind: this.data.kind,
@@ -36,16 +43,16 @@ export default {
         startTime: this.data.startTime,
         endTime: this.data.endTime,
         status: this.data.status
-      }
-      _this.dialog = true
+      };
+      _this.dialog = true;
     }
   }
-}
+};
 </script>
 
 <style scoped>
-  div{
-    display: inline-block;
-    margin-right: 3px;
-  }
+div {
+  display: inline-block;
+  margin-right: 3px;
+}
 </style>

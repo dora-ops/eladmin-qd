@@ -39,6 +39,7 @@
 <script>
 import checkPermission from "@/utils/permission";
 import initData from "@/mixins/initData";
+import { mapGetters } from 'vuex'
 import { del } from "@/api/investigationInfo";
 import { parseTime } from "@/utils/index";
 import eHeader from "./module/header";
@@ -51,6 +52,12 @@ export default {
       delLoading: false,
       sup_this: this
     };
+  },
+   computed: {
+    ...mapGetters([
+      'user',
+      'updateAvatarApi'
+    ])
   },
   created() {
     this.$nextTick(() => {
@@ -67,6 +74,7 @@ export default {
       const query = this.query;
       const type = query.type;
       const value = query.value;
+      this.params['dealUid']=this.user.id
       if (type && value) {
         this.params[type] = value;
       }

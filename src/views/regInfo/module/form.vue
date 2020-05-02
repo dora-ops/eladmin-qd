@@ -1,63 +1,67 @@
 <template>
-    <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
-        <el-form ref="form" :model="form" :rules="rules" size="small" label-width="100px">
+  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
+    <el-form ref="form" :model="form" :rules="rules" size="small" label-width="100px">
 
-            <el-form-item label="案件种类" prop="kind">
-                <el-select v-model="form.kind" placeholder="请选择" style="width: 370px;">
-                    <el-option v-for="item in kind_options" :key="item" :label="item" :value="item">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="案件名称" prop="name">
-                <el-input v-model="form.name" style="width: 370px;" />
-            </el-form-item>
-            <el-form-item label="重要程度" prop="imp">
-                <!-- <el-input v-model="form.imp" style="width: 370px;" /> -->
-                <el-select v-model="form.imp" placeholder="请选择" style="width: 370px;">
-                    <el-option v-for="item in imp_options" :key="item" :label="item" :value="item">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="案件简述" prop="summary">
-                <el-input type="textarea" v-model="form.summary" style="width: 370px;" />
-            </el-form-item>
-            <!-- <el-form-item label="录入时间" prop="regTime">
+      <el-form-item label="案件种类" prop="kind">
+        <el-select v-model="form.kind" placeholder="请选择" style="width: 370px;">
+          <el-option v-for="item in kind_options" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="案件名称" prop="name">
+        <el-input v-model="form.name" style="width: 370px;" />
+      </el-form-item>
+      <el-form-item label="重要程度" prop="imp">
+        <!-- <el-input v-model="form.imp" style="width: 370px;" /> -->
+        <el-select v-model="form.imp" placeholder="请选择" style="width: 370px;">
+          <el-option v-for="item in imp_options" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="案件简述" prop="summary">
+        <el-input type="textarea" v-model="form.summary" style="width: 370px;" />
+      </el-form-item>
+      <!-- <el-form-item label="录入时间" prop="regTime">
                 <el-date-picker v-model="form.regTime" type="date" style="width: 370px;" placeholder="选择日期">
                 </el-date-picker>
             </el-form-item> -->
-            <el-form-item label="负责人姓名" prop="uname">
-                <el-input readonly="true" v-model="form.uname" :value="userInfo.username" style="width: 370px;" />
-            </el-form-item>
-            <el-form-item label="负责人警号" prop="uid">
-                <el-input readonly="true" v-model="form.uid" :value="userInfo.id" style="width: 370px;" />
-            </el-form-item>
-            <el-form-item label="审核人警号" prop="dealUid">
-                <el-input v-model="form.dealUid" style="width: 370px;" />
-            </el-form-item>
-            <el-form-item label="提供联系" prop="provider">
-                <el-input v-model="form.provider" style="width: 370px;" />
-            </el-form-item>
-            <el-form-item label="发生时间" prop="startTime">
-                <el-date-picker v-model="form.startTime" type="date" style="width: 370px;" placeholder="选择日期">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="审核人姓名" prop="dealUname">
-                <el-input v-model="form.dealUname" style="width: 370px;" />
-            </el-form-item>
-            <!-- <el-form-item label="登记编号" prop="cid">
+      <el-form-item label="负责人姓名" prop="uname">
+        <el-input readonly="true" v-model="form.uname" :value="userInfo.username" style="width: 370px;" />
+      </el-form-item>
+      <el-form-item label="负责人警号" prop="uid">
+        <el-input readonly="true" v-model="form.uid" :value="userInfo.id" style="width: 370px;" />
+      </el-form-item>
+      <el-form-item label="审核人警号" prop="dealUid">
+        <el-select v-model="form.dealUid" placeholder="请选择" style="width: 370px;">
+          <el-option v-for="item in dealUidOptions" :key="item.id" :label="item.id" :value="item.id">
+          </el-option>
+        </el-select>
+        <!-- <el-input v-model="form.dealUid" style="width: 370px;" /> -->
+      </el-form-item>
+      <el-form-item label="提供联系" prop="provider">
+        <el-input v-model="form.provider" style="width: 370px;" />
+      </el-form-item>
+      <el-form-item label="发生时间" prop="startTime">
+        <el-date-picker v-model="form.startTime" type="date" style="width: 370px;" placeholder="选择日期">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="审核人姓名" prop="dealUname">
+        <el-input v-model="form.dealUname" style="width: 370px;" />
+      </el-form-item>
+      <!-- <el-form-item label="登记编号" prop="cid">
                 <el-input v-model="form.cid" style="width: 370px;" />
             </el-form-item> -->
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button type="text" @click="cancel">取消</el-button>
-            <el-button :loading="loading" type="primary" @click="doSubmit">确认</el-button>
-        </div>
-    </el-dialog>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="text" @click="cancel">取消</el-button>
+      <el-button :loading="loading" type="primary" @click="doSubmit">确认</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
 import { add, edit } from "@/api/regInfo";
-import { getInfo} from "@/api/login";
+import { getInfo } from "@/api/login";
 export default {
   props: {
     isAdd: {
@@ -96,9 +100,7 @@ export default {
         name: [
           { required: true, message: "案件名称不能为空", trigger: "blur" }
         ],
-         imp: [
-          { required: true, message: "不能为空", trigger: "blur" }
-        ],
+        imp: [{ required: true, message: "不能为空", trigger: "blur" }],
 
         regTime: [
           { required: true, message: "录入时间不能为空", trigger: "blur" }
@@ -125,16 +127,21 @@ export default {
       options: [],
       kind_options: ["民事案件", "刑事案件", "行政案件"],
       imp_options: ["轻", "严重", "紧急"],
-      userInfo:{}
+      userInfo: {},
+      dealUidOptions: []
     };
   },
-  created(){
-    getInfo().then(res=>{
+  created() {
+    getInfo().then(res => {
       // debugger
-      this.userInfo=res
-      this.form.uid=res.id
-       this.form.uname=res.username
-    })
+      this.userInfo = res;
+      this.form.uid = res.id;
+      this.form.uname = res.username;
+      var sql = "SELECT * FROM `user` u WHERE  u.job_id = 11 ";
+      this.$http.post("/action", { sql: sql }).then(res => {
+        this.dealUidOptions = res.data;
+      });
+    });
   },
   methods: {
     cancel() {
@@ -149,7 +156,7 @@ export default {
     doAdd() {
       add(this.form)
         .then(res => {
-         var param = {
+          var param = {
             kind: this.form.kind,
             name: this.form.name,
             uname: this.form.uname,

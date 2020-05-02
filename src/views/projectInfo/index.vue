@@ -44,6 +44,7 @@
 import checkPermission from "@/utils/permission";
 import initData from "@/mixins/initData";
 import { del } from "@/api/projectInfo";
+import { mapGetters } from 'vuex'
 import { parseTime } from "@/utils/index";
 import eHeader from "./module/header";
 import edit from "./module/edit";
@@ -55,6 +56,12 @@ export default {
       delLoading: false,
       sup_this: this
     };
+  },
+   computed: {
+    ...mapGetters([
+      'user',
+      'updateAvatarApi'
+    ])
   },
   created() {
     this.$nextTick(() => {
@@ -74,6 +81,7 @@ export default {
       if (type && value) {
         this.params[type] = value;
       }
+      this.params['dealUid']=this.user.id
       return true;
     },
     subDelete(id) {

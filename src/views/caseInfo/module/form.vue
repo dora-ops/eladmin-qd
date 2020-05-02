@@ -1,8 +1,8 @@
 <template>
-    <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
-        <el-form ref="form" :model="form" :rules="rules" size="small" label-width="100px">
+  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="执行案件" width="500px">
+    <el-form ref="form" :model="form" :rules="rules" size="small" label-width="100px">
 
-            <el-form-item label="案件种类" prop="kind">
+      <!-- <el-form-item label="案件种类" prop="kind">
 
                 <el-select v-model="form.kind" placeholder="请选择" style="width: 370px;">
                     <el-option v-for="item in kind_options" :key="item" :label="item" :value="item">
@@ -49,24 +49,24 @@
             </el-form-item>
             <el-form-item label="案件简述" prop="summary">
                 <el-input type="textarea" v-model="form.summary" style="width: 370px;" />
-            </el-form-item>
-            <el-form-item label="案件详情" prop="detail">
-                <el-input type="textarea" v-model="form.detail" style="width: 370px;" />
-            </el-form-item>
-            <el-form-item label="案件状态" prop="status">
+            </el-form-item> -->
+      <el-form-item label="案件详情" prop="detail">
+        <el-input type="textarea" v-model="form.detail" style="width: 370px;" />
+      </el-form-item>
+      <!-- <el-form-item label="案件状态" prop="status">
                 <el-input v-model="form.status" style="width: 370px;" />
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button type="text" @click="cancel">取消</el-button>
-            <el-button :loading="loading" type="primary" @click="doSubmit">确认</el-button>
-        </div>
-    </el-dialog>
+            </el-form-item> -->
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="text" @click="cancel">取消</el-button>
+      <el-button :loading="loading" type="primary" @click="doSubmit">执行案件</el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
 import { add, edit } from "@/api/caseInfo";
-
+import { parseTime } from "@/utils/index";
 export default {
   props: {
     isAdd: {
@@ -137,6 +137,7 @@ export default {
         this.doAdd();
       } else this.doEdit();
     },
+    addProjectInfo(form) {},
     doAdd() {
       add(this.form)
         .then(res => {
@@ -146,7 +147,6 @@ export default {
             type: "success",
             duration: 2500
           });
-          debugger;
           this.form.cid = res.id;
           this.$http
             .post("/insert", { table: "investigation_info", data: this.form })
@@ -160,16 +160,42 @@ export default {
         });
     },
     doEdit() {
+      // var form=this.form
       edit(this.form)
         .then(res => {
-          this.resetForm();
-          this.$notify({
-            title: "修改成功",
-            type: "success",
-            duration: 2500
-          });
-          this.loading = false;
-          this.sup_this.init();
+          debugger
+          var param = {
+            name: this.form.name,
+            raise_time: parseTime(this.form.startTime),
+            execute_time: parseTime(new Date().getTime()),
+
+            uid: this.form.uid,
+
+            uname: this.form.uname,
+
+            deal_uid: this.form.dealId,
+            deal_uname: this.form.dealName,
+            content: this.form.detail,
+            //  start_time:this.form.startTime,
+            //  end_time:'',
+            cid: this.form.id
+          };
+          this.$http
+            .post("/insert", { table: "project_info", data: param })
+            .then(res => {
+              var sql = "update  case_info set status='进行中' where id=?";
+              sql = sql.replace("?", this.form.id);
+              this.$http.post("/action", { sql: sql }).then(res => {
+                this.resetForm();
+                this.$notify({
+                  title: "修改成功",
+                  type: "success",
+                  duration: 2500
+                });
+                this.loading = false;
+                this.sup_this.init();
+              });
+            });
         })
         .catch(err => {
           this.loading = false;

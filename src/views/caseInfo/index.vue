@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <eHeader :sup_this="sup_this"  :query="query" />
+    <eHeader :sup_this="sup_this" :query="query" />
     <!--表格渲染-->
     <el-table v-loading="loading" :data="data" size="small" style="width: 100%;">
       <el-table-column prop="id" label="案件编号" />
@@ -27,7 +27,7 @@
       <el-table-column prop="status" label="案件状态" />
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <edit v-if="checkPermission(['ADMIN'])&&scope.row.status!='已结案'" :data="scope.row" :sup_this="sup_this" />
+          <edit v-if="scope.row.status=='开始'" :data="scope.row" :sup_this="sup_this" />
           <el-popover v-if="checkPermission(['ADMIN'])" :ref="scope.row.id" placement="top" width="180">
             <p>确定删除本条数据吗？</p>
             <div style="text-align: right; margin: 0">
@@ -36,11 +36,24 @@
             </div>
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
           </el-popover>
-          <el-button v-if="scope.row.status=='开始'" slot="reference" @click="addProjectInfo(scope.row)" size="mini">执行案件</el-button>
-          <el-button v-if="scope.row.status=='通过'" slot="reference" @click="addClosedInfo(scope.row)" size="mini">提交结案</el-button>
+          <!-- <edit :opt="1" v-if="scope.row.status=='开始'" :data="scope.row" :sup_this="sup_this" /> -->
+          <!-- <el-button v-if="scope.row.status=='开始'" slot="reference" @click="addProjectInfo(scope.row)" size="mini">执行案件</el-button> -->
+          <el-button v-if="scope.row.status=='通过'" slot="reference" @click="to(scope.row)" size="mini">提交结案</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog :append-to-body="true" :visible.sync="dialog" :title="案件执行" width="500px">
+      <el-form ref="form" :model="form" size="small" label-width="100px">
+
+        <el-form-item label="处理结果" prop="result">
+          <el-input type="textarea" v-model="form.result" style="width: 370px;" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="text" @click="cancel">取消</el-button>
+        <el-button type="primary" @click="addClosedInfo">确认</el-button>
+      </div>
+    </el-dialog>
     <!--分页组件-->
     <el-pagination :total="total" style="margin-top: 8px;" layout="total, prev, pager, next, sizes" @size-change="sizeChange" @current-change="pageChange" />
   </div>
@@ -50,7 +63,9 @@
 import checkPermission from "@/utils/permission";
 import initData from "@/mixins/initData";
 import { del } from "@/api/caseInfo";
+import { mapGetters } from "vuex";
 import { parseTime } from "@/utils/index";
+import { add, edit as toEdit} from "@/api/caseInfo";
 import eHeader from "./module/header";
 import edit from "./module/edit";
 export default {
@@ -59,8 +74,13 @@ export default {
   data() {
     return {
       delLoading: false,
-      sup_this: this
+      sup_this: this,
+      dialog: false,
+      form: {}
     };
+  },
+  computed: {
+    ...mapGetters(["user", "updateAvatarApi"])
   },
   created() {
     this.$nextTick(() => {
@@ -80,6 +100,7 @@ export default {
       if (type && value) {
         this.params[type] = value;
       }
+      this.params["uid"] = this.user.id;
       return true;
     },
     subDelete(id) {
@@ -128,30 +149,36 @@ export default {
           });
         });
     },
-    addClosedInfo(form) {
-      var param = {
-        name: form.name,
-
-        end_time: parseTime(new Date().getTime()),
-
-        uid: form.uid,
-
-        uname: form.uname,
-
-        deal_uid: form.dealId,
-        deal_name: form.dealName,
-        content: form.detail,
-        cid: form.id
-      };
-      this.$http
-        .post("/insert", { table: "closed_info", data: param })
-        .then(res => {
-          var sql = "update  case_info set status='结案中' where id=?";
-          sql = sql.replace("?", form.id);
-          this.$http.post("/action", { sql: sql }).then(res => {
-            this.init();
+    addClosedInfo() {
+      toEdit(this.form).then(res => {
+        var param = {
+          name: this.form.name,
+          end_time: parseTime(new Date().getTime()),
+          uid: this.form.uid,
+          uname: this.form.uname,
+          deal_uid: this.form.dealId,
+          deal_name: this.form.dealName,
+          content: this.form.detail,
+          cid: this.form.id
+        };
+        this.$http
+          .post("/insert", { table: "closed_info", data: param })
+          .then(res => {
+            var sql = "update  case_info set status='结案中' where id=?";
+            sql = sql.replace("?", this.form.id);
+            this.$http.post("/action", { sql: sql }).then(res => {
+              this.dialog = false;
+              this.init();
+            });
           });
-        });
+      });
+    },
+    to(row) {
+      this.form = row;
+      this.dialog = true;
+    },
+    cancel() {
+      this.dialog = false;
     }
   }
 };

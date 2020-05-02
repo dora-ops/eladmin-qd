@@ -12,7 +12,7 @@
       </el-table-column>
       <el-table-column prop="uname" label="奖惩人姓名" />
       <el-table-column prop="uid" label="奖惩人警号" />
-      <el-table-column prop="dealUid" label="处理人警号" />
+      <el-table-column prop="dealUid" label="审核人警号" />
       <el-table-column prop="content" label="案件汇报" />
       <el-table-column prop="dealName" label="审核人姓名" />
       <el-table-column label="操作" width="150px" align="center">
@@ -41,6 +41,7 @@ import initData from "@/mixins/initData";
 import { del } from "@/api/closedInfo";
 import { parseTime } from "@/utils/index";
 import eHeader from "./module/header";
+import { mapGetters } from 'vuex'
 import edit from "./module/edit";
 export default {
   components: { eHeader, edit },
@@ -56,6 +57,12 @@ export default {
       this.init();
     });
   },
+  computed: {
+    ...mapGetters([
+      'user',
+      'updateAvatarApi'
+    ])
+  },
   methods: {
     parseTime,
     checkPermission,
@@ -66,6 +73,7 @@ export default {
       const query = this.query;
       const type = query.type;
       const value = query.value;
+      this.params['dealUid']=this.user.id
       if (type && value) {
         this.params[type] = value;
       }
