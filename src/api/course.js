@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function add(data) {
   return request({
-    url: 'api/topic',
+    url: 'api/course',
     method: 'post',
     data
   })
@@ -10,28 +10,28 @@ export function add(data) {
 
 export function queryAll() {
   return request({
-  url: 'api/queryAll/topic',
+  url: 'api/queryAll/course',
   method: 'get',
   })
 }
 
 export function findById() {
   return request({
-  url: 'api/findById/topic',
+  url: 'api/findById/course',
   method: 'get',
   })
 }
 
 export function del(id) {
   return request({
-    url: 'api/topic/' + id,
+    url: 'api/course/' + id,
     method: 'delete'
   })
 }
 
 export function edit(data) {
   return request({
-    url: 'api/topic',
+    url: 'api/course',
     method: 'put',
     data
   })

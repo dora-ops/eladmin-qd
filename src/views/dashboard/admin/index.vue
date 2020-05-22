@@ -1,103 +1,47 @@
 <template>
   <div class="dashboard-editor-container">
-
+  <h1 style="text-align:center" >课程</h1>
+    <el-row>
+      <el-col :span="8" v-for="(o, index) in picList" :key="o" :offset="index > 0 ? 3 : 0">
+        <el-card :body-style="{ padding: '0px' }">
+          <video :src="o.img" controls="controls">
     
-
-    <panel-group/>
-     <el-row>
-        <el-col span="24">
-          <el-carousel
-            v-model="value3"
-            :autoplay="setting.autoplay"
-            :autoplay-speed="setting.autoplaySpeed"
-            :dots="setting.dots"
-            :radius-dot="setting.radiusDot"
-            :trigger="setting.trigger"
-            :arel-row="setting.arelRow">
-            <!-- <el-carousel-item v-for="pic in picList" :key="pic.id">
-              <img class="carousel" v-bind:src="pic.url"/>
-            </el-carousel-item> -->
-            <el-carousel-item>
-              <div class="carousel cal2"></div>
-            </el-carousel-item>
-            <el-carousel-item>
-              <div class="carousel cal3"></div>
-            </el-carousel-item>
-            <el-carousel-item>
-              <div class="carousel cal4"></div>
-            </el-carousel-item>
-          </el-carousel>
-        </el-col>
-       
-      </el-row>
-      <el-row class="margin-top-10">
-        <el-col span="12">
-          <el-card>
-            <h4>
-                  <!-- <svg-icon :icon-class="item"  /> -->
-              <!-- <Icon type="android-archive"></Icon> -->
-              <i class="el-icon-edit">社区信息</i>
-            </h4>
-            <div class="to-do-list-con">
-              <div v-for="(item, index) in toDoList" :key="'todo-item' + (toDoList.length - index)" class="to-do-item">
-           
-                <li class="Li" :title="item.name" @click="toDetail(item.id)">{{item.name}}</li>
-              </div>
+        </video>
+          <!-- <img :src="o.img" class="image"> -->
+          <div style="padding: 14px;">
+            <span>课程名：{{o.name}}</span>
+            <div>简介：{{o.introduction}}</div>
+            <div class="bottom clearfix">
+              <time class="time">{{ o.create_time }}</time>
+              <el-button type="text" class="button">查看</el-button>
             </div>
-          </el-card>
-        </el-col>
-        <el-col span="12">
-          <el-card class="margin-left-10">
-            <h4>
-                  <!-- <svg-icon :icon-class="android-archive" /> -->
-             <i class="el-icon-edit">政府公告</i>
-              
-            </h4>
-            <div class="to-do-list-con">
-              <div v-for="(item, index) in toDoList1" :key="'todo-item' + (toDoList.length - index)" class="to-do-item">
-                <li class="Li" :title="item.title" @click="toTopic(item.id)">{{item.title}}</li>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+   
 
+    <h1 style="text-align:center" >访问记录</h1>
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart/>
     </el-row>
 
-    <!-- <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <raddar-chart/>
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <pie-chart/>
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <bar-chart/>
-        </div>
-      </el-col>
-    </el-row> -->
-    
+
+
   </div>
 </template>
 
 <script>
-import GithubCorner from '@/components/GithubCorner'
-import PanelGroup from './components/PanelGroup'
-import LineChart from './components/LineChart'
-import RaddarChart from './components/RaddarChart'
-import PieChart from './components/PieChart'
-import BarChart from './components/BarChart'
-import { initData } from '@/api/data'
+import GithubCorner from "@/components/GithubCorner";
+import PanelGroup from "./components/PanelGroup";
+import LineChart from "./components/LineChart";
+import RaddarChart from "./components/RaddarChart";
+import PieChart from "./components/PieChart";
+import BarChart from "./components/BarChart";
+import { initData } from "@/api/data";
 import { resource, erea_info, topic } from "@/sqlMap";
 export default {
-  name: 'DashboardAdmin',
+  name: "DashboardAdmin",
   components: {
     GithubCorner,
     PanelGroup,
@@ -107,50 +51,44 @@ export default {
     BarChart
   },
   created() {
-      this.$http.post("/action", { sql: erea_info.getAll }).then(res => {
-      this.toDoList = res.data
+    this.$http.post("/action", { sql: 'select * from course' }).then(res => {
+      this.picList = res.data;
     });
-    this.$http.post("/action", { sql: topic.getAll }).then(res => {
-      this.toDoList1  = res.data
-    });
-       
-        //  initData('api/pictures',{type:'huandengpian'}).then(res => {
-        //     this.picList = res.content
-        // }).catch(err => {
-        // })
-  },
-  data () {
-        return {
-          value3: 3,
-          setting: {
-            autoplay: true,
-            autoplaySpeed: 4000,
-            dots: 'inside',
-            trigger: 'click',
-            arelRow: 'hover'
-          },
-          toDoList: [
-          ],
-          toDoList1: [
-          ],
-          picList: [
-           
-          ],
-        };
-    },
+   
 
-    methods: {
-        toDetail: function(id) {
+    //  initData('api/pictures',{type:'huandengpian'}).then(res => {
+    //     this.picList = res.content
+    // }).catch(err => {
+    // })
+  },
+  data() {
+    return {
+      value3: 3,
+      currentDate: new Date(),
+      setting: {
+        autoplay: true,
+        autoplaySpeed: 4000,
+        dots: "inside",
+        trigger: "click",
+        arelRow: "hover"
+      },
+      toDoList: [],
+      toDoList1: [],
+      picList: []
+    };
+  },
+
+  methods: {
+    toDetail: function(id) {
       let routeData = this.$router.resolve({ path: "/detail/" + id });
       window.open(routeData.href, "_blank");
     },
     toTopic: function(id) {
       let routeData = this.$router.resolve({ path: "/topic/" + id });
       window.open(routeData.href, "_blank");
-    },
     }
-  
-}
+  }
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
@@ -163,30 +101,60 @@ export default {
     margin-bottom: 32px;
   }
 }
- .carousel{
+.carousel {
+  width: 100%;
+  height: 420px;
+  background-size: cover;
+  background-position: center;
+}
+.cal1 {
+  background-image: url("./b4.jpg");
+}
+.cal2 {
+  background-image: url("./b5.jpg");
+}
+.cal3 {
+  background-image: url("./b6.jpg");
+}
+.cal4 {
+  background-image: url("./b3.jpg");
+}
+.Li {
+  font-size: 16px;
+  margin-bottom: 10px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.time {
+    font-size: 13px;
+    color: #999;
+  }
+  
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+
+  .button {
+    padding: 0;
+    float: right;
+  }
+
+  .image {
     width: 100%;
-    height: 420px;
-    background-size: cover;
-    background-position: center;
+    display: block;
   }
-  .cal1{
-    background-image: url('./b4.jpg');
+
+  .clearfix:before,
+  .clearfix:after {
+      display: table;
+      content: "";
   }
-  .cal2{
-    background-image: url('./b5.jpg');
-  }
-  .cal3{
-    background-image: url('./b6.jpg');
-  }
-  .cal4{
-     background-image: url('./b3.jpg');
-   }
-  .Li{
-    font-size: 16px;
-    margin-bottom: 10px;
-    line-height: 20px;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
+  
+  .clearfix:after {
+      clear: both
   }
 </style>

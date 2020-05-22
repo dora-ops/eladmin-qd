@@ -36,8 +36,8 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/detail/:id',
-    component: () => import('@/views/dashboard/detail'),
+    path: '/exam/:id',
+    component: () => import('@/views/exam/singleExam'),
     hidden: true
   },
   {
