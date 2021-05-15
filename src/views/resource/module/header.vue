@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       queryTypeOptions: [
-        { key: 'originalname', display_name: '原文件名称' }
+        { key: 'filename', display_name: '生成文件名' }
       ]
     }
   },
